@@ -9,12 +9,13 @@ import java.io.Serializable;
 import java.util.Date;
 
 @MappedSuperclass
-@EntityListeners(AuditingEntityListener.class)
+@EntityListeners(AuditingEntityListener.class) //controlar de forma transparente quem criou ou mudou uma entidade e o momento em que isso aconteceu
 @JsonIgnoreProperties(
         value = {"createdAt", "updatedAt"},
         allowGetters = true
 )
 public abstract class AuditModel implements Serializable {
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at", nullable = false, updatable = false)
     @CreatedDate
