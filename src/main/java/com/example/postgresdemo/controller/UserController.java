@@ -27,6 +27,12 @@ public class UserController {
         return new ResponseEntity<>(dao.findAll(pageable), HttpStatus.OK);
     }
 
+    @GetMapping(path = "/{name}")
+    public ResponseEntity<?> getByName(@PathVariable("name") String name) {
+        return new ResponseEntity<>(dao.findByNameIgnoreCaseContaining(name), HttpStatus.OK);
+    }
+
+
     @GetMapping("/{userId}")
     public ResponseEntity<?> get(@PathVariable Long userId) {
         return new ResponseEntity<>(dao.findById(userId), HttpStatus.OK);
@@ -59,7 +65,7 @@ public class UserController {
     @DeleteMapping
     public ResponseEntity<?> deleteAll() {
         dao.deleteAll();
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 
 }

@@ -12,7 +12,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests() //configurar a segurança
                 .anyRequest() //para qualquer requisicao
-                .authenticated().and()
+                .authenticated()// tem que estar autenticado
+                .and() //e
                 .formLogin().and()
                 .csrf().disable();
     }
