@@ -12,7 +12,7 @@ public class SecurityConstants {
 
     //Rodar esta classe para pegar o valor do dia em millisegundos
     public static void main(String[] args) {
-        System.out.println(TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS));
+//        System.out.println(TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS));
     }
 
 

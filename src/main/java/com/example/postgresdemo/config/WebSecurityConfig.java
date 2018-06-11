@@ -43,8 +43,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/*/protected/**").hasRole("USER")//regra para user
                 .antMatchers("/*/admin/**").hasRole("ADMIN")//regra para admin
                 .and()
-                .addFilter(new JWTAuthenticationFilter(authenticationManager()))
-                .addFilter(new JWTAuthorizationFilter(authenticationManager(), customUserDetailService));
+                .addFilter(new AuthenticationFilter(authenticationManager()))
+                .addFilter(new AuthorizationFilter(authenticationManager(), customUserDetailService));
     }
 
     @Override

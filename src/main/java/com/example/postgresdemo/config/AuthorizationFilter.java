@@ -18,11 +18,11 @@ import static com.example.postgresdemo.config.SecurityConstants.HEADER_STRING;
 import static com.example.postgresdemo.config.SecurityConstants.SECRET;
 import static com.example.postgresdemo.config.SecurityConstants.TOKEN_PREFIX;
 
-public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
+public class AuthorizationFilter extends BasicAuthenticationFilter {
 
     private final CustomUserDetailService customUserDetailService;
 
-    public JWTAuthorizationFilter(AuthenticationManager authenticationManager, CustomUserDetailService customUserDetailService) {
+    public AuthorizationFilter(AuthenticationManager authenticationManager, CustomUserDetailService customUserDetailService) {
         super(authenticationManager);
         this.customUserDetailService = customUserDetailService;
     }

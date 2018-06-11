@@ -4,6 +4,7 @@ import com.example.postgresdemo.exception.ResourceNotFoundException;
 import com.example.postgresdemo.model.User;
 import com.example.postgresdemo.repository.UserRepository;
 import com.example.postgresdemo.util.CryptPasswordUtils;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -26,6 +27,7 @@ public class UserController {
     }
 
     @GetMapping
+    @ApiOperation(value = "Return a list with all users", response = User[].class)
     public ResponseEntity<?> getAll(Pageable pageable) {
         return new ResponseEntity<>(dao.findAll(pageable), HttpStatus.OK);
     }
