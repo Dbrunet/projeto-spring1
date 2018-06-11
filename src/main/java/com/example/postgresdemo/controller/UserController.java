@@ -3,6 +3,7 @@ package com.example.postgresdemo.controller;
 import com.example.postgresdemo.exception.ResourceNotFoundException;
 import com.example.postgresdemo.model.User;
 import com.example.postgresdemo.repository.UserRepository;
+import com.example.postgresdemo.util.CryptPasswordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -16,10 +17,12 @@ import javax.validation.Valid;
 public class UserController {
 
     private final UserRepository dao;
+    private final CryptPasswordUtils cryptPasswordUtils;
 
     @Autowired
-    public UserController(UserRepository dao) {
+    public UserController(UserRepository dao, CryptPasswordUtils cryptPasswordUtil) {
         this.dao = dao;
+        this.cryptPasswordUtils = cryptPasswordUtil;
     }
 
     @GetMapping
@@ -27,7 +30,7 @@ public class UserController {
         return new ResponseEntity<>(dao.findAll(pageable), HttpStatus.OK);
     }
 
-    @GetMapping(path = "/{name}")
+    @GetMapping(path = "/search/{name}")
     public ResponseEntity<?> getByName(@PathVariable("name") String name) {
         return new ResponseEntity<>(dao.findByNameIgnoreCaseContaining(name), HttpStatus.OK);
     }
@@ -40,6 +43,7 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<?> save(@Valid @RequestBody User user) {
+        user.setPassword(cryptPasswordUtils.bCryptPasswordEncoder(user.getPassword()));
         return new ResponseEntity<>(dao.save(user), HttpStatus.OK);
     }
 
