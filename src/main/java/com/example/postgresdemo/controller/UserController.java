@@ -1,13 +1,9 @@
 package com.example.postgresdemo.controller;
 
-import com.example.postgresdemo.exception.ResourceNotFoundException;
 import com.example.postgresdemo.model.User;
-import com.example.postgresdemo.repository.UserRepository;
-import com.example.postgresdemo.util.CryptPasswordUtils;
+import com.example.postgresdemo.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,61 +13,62 @@ import javax.validation.Valid;
 @RequestMapping("users")
 public class UserController {
 
-    private final UserRepository dao;
-    private final CryptPasswordUtils cryptPasswordUtils;
+    private final UserService userService;
 
     @Autowired
-    public UserController(UserRepository dao, CryptPasswordUtils cryptPasswordUtil) {
-        this.dao = dao;
-        this.cryptPasswordUtils = cryptPasswordUtil;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping
-    @ApiOperation(value = "Return a list with all users", response = User[].class)
-    public ResponseEntity<?> getAll(Pageable pageable) {
-        return new ResponseEntity<>(dao.findAll(pageable), HttpStatus.OK);
+    @ApiOperation(value = "Retorna a lista de todos os usuários", response = User[].class)
+    public ResponseEntity<?> getAll() {
+        return userService.getPaginatedUser(0, 3, "name");
     }
 
-    @GetMapping(path = "/search/{name}")
+    @GetMapping(path = "/name/search/{name}")
     public ResponseEntity<?> getByName(@PathVariable("name") String name) {
-        return new ResponseEntity<>(dao.findByNameIgnoreCaseContaining(name), HttpStatus.OK);
+        return userService.getUserByName(name);
     }
 
+    @GetMapping(path = "/profession/search/{profession}")
+    public ResponseEntity<?> getByProfession(@PathVariable("profession") String profession) {
+        return userService.getUserByProfession(profession);
+    }
+
+    @GetMapping(path = "/counts/{age}")
+    public ResponseEntity<?> countByAge(@PathVariable("age") Integer age) {
+        return userService.getCounts(age);
+    }
+
+    @GetMapping(path = "/some-name/{profession}/{age}")
+    public ResponseEntity<?> getUserFieldName(@PathVariable("profession") String profession, @PathVariable("age") Integer age) {
+        return userService.getUserFieldName(profession, age);
+    }
 
     @GetMapping("/{userId}")
     public ResponseEntity<?> get(@PathVariable Long userId) {
-        return new ResponseEntity<>(dao.findById(userId), HttpStatus.OK);
+        return userService.getUserById(userId);
     }
 
     @PostMapping
     public ResponseEntity<?> save(@Valid @RequestBody User user) {
-        user.setPassword(cryptPasswordUtils.bCryptPasswordEncoder(user.getPassword()));
-        return new ResponseEntity<>(dao.save(user), HttpStatus.OK);
+        return userService.save(user);
     }
 
     @PutMapping
     public ResponseEntity<?> update(@Valid @RequestBody User userRequest) {
-        return dao.findById(userRequest.getId())
-                .map(user -> {
-                    user.setName(userRequest.getName());
-                    return new ResponseEntity<>(dao.save(user), HttpStatus.OK);
-                }).orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado. ID " + userRequest.getId()));
+        return userService.update(userRequest);
     }
 
     @DeleteMapping("/{questionId}")
     public ResponseEntity<?> delete(@PathVariable Long userId) {
-        return dao.findById(userId)
-                .map(user -> {
-                    dao.delete(user);
-                    return ResponseEntity.ok().build();
-                }).orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado. ID " + userId));
-
+        return userService.delete(userId);
     }
 
     @DeleteMapping
     public ResponseEntity<?> deleteAll() {
-        dao.deleteAll();
-        return ResponseEntity.ok().build();
+        return userService.deleteAll();
     }
 
 }
