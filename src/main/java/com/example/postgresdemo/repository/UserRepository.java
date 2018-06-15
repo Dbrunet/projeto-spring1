@@ -88,7 +88,30 @@ public interface UserRepository extends JpaRepository<User, Long> {
 //termine com a letra s
     List<User> like();
 
-//    @Query("select u.name from User u where u.name LIKE '%S'")
-//termine com a letra s
-    List<User> join();
+    /**
+     * JOIN
+     * usado para obter dados provenientes de duas ou mais tabelas. Obter dados de ambas as tabelas.
+     */
+
+    //InnerJoin - Retorna linhas quando houver pelo menos uma correspondencia em ambas as tabelas
+    //@Query("select * from tabela1 tb1 INNER JOIN tabela2 tb2 ON tb1.coluna = tb2.coluna")//colunas onde existe relacao
+    //@Query("select tb1.campo1, tb1.campo2, ... from tabela1 tb1 INNER JOIN tabela2 tb2 ON tb1.coluna = tb2.coluna")
+    List<User> innerJoin();
+
+    //OuterJoin - Retorna linhas das tabelas informada mesmo quando não houver pelo menos uma correspondencia nas tabelas
+    //TIPOS:
+    // LEFT JOIN - Retorna todas as linhas da tabela á esquerda. mesmo se não houver correpondencia na tabela da direita
+    //@Query("select COLUNAS from TABELA_ESQ tb1 LEFT (OUTER) JOIN TABELA_DIR tb2 ON tb1.coluna = tb2.coluna")//SQL padrão usa-se LEFT OUTER JOIN
+    //@Query("select COLUNAS from TABELA_ESQ tb1 LEFT (OUTER) JOIN TABELA_DIR tb2 ON tb1.coluna = tb2.coluna where tb2.coluna IS NULL")//exluindo correspondencias
+    List<User> LEFTJoin();
+
+    // RIGHT JOIN - Retorna todas as linhas da tabela á direita. mesmo se não houver correpondencia na tabela da esquerda
+    //@Query("select COLUNAS from TABELA_ESQ tb1 RIGHT (OUTER) JOIN TABELA_DIR tb2 ON tb1.coluna = tb2.coluna")
+    //@Query("select COLUNAS from TABELA_ESQ tb1 RIGHT (OUTER) JOIN TABELA_DIR tb2 ON tb1.coluna = tb2.coluna where tb2.coluna IS NULL")//exluindo correspondencias
+    List<User> RIGHTJoin();
+
+    // FULL JOIN - Retorna linhas quando houver uma correspondencia e os que não houver correspondencia nas tabelas. É a combinação de LEFT e RIGHT.
+    //@Query("select COLUNAS from TABELA1 tb1 FULL (OUTER) JOIN TABELA2 tb2 ON tb1.coluna = tb2.coluna")
+    //@Query("select COLUNAS from TABELA1 tb1 FULL (OUTER) JOIN TABELA2 tb2 ON tb1.coluna = tb2.coluna where tb1.coluna IS NULL OR tb2.coluna IS NULL")
+    List<User> FULLJoin();
 }
