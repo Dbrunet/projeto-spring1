@@ -45,23 +45,23 @@ public interface UserRepository extends JpaRepository<User, Long> {
 //se pelo menos uma condicao é verdadeira
     List<User> getUserSomeFieldName(@Param("profession") String profession,
                                     @Param("age") Integer age);
-
+//
     //ORDER BY - ordenacao
     //use da Query ou user na assinatura do metodo do JPA
-    @Query("select u.name from User u ORDER BY u.name DESC")
-    List<User> findAllByOrOrderByNameAsc();
+//    @Query("select u.name from User u ORDER BY u.name DESC")
+//    List<User> findAllByOrOrderByNameAsc();
 
     //DISTINCT - obter valores não duplicados
-    @Query("select distinct u.name from User u")
-    List<User> comandDistinct();
+//    @Query("select distinct u.name from User u")
+//    List<User> comandDistinct();
 
     //WHERE - onde
-    @Query("select u.name from User u where u.age = 34")
-    List<User> clauseWhere();
+//    @Query("select u.name from User u where u.age = 34")
+//    List<User> clauseWhere();
 
     //Update - atualizar elementos da tabela
-    @Query("UPDATE User u SET u.age = :newAge where u.id = :idUser")
-    List<User> comandUpdate(@Param("idUser") Long idUser, @Param("age") Integer newAge);
+//    @Query("UPDATE User u SET u.age = :newAge where u.id = :idUser")
+//    List<User> comandUpdate(@Param("idUser") Long idUser, @Param("age") Integer newAge);
 
     //Funcoes Agregadas
     //MIN, MAX, AVG(MEDIA), SUM, COUNT
@@ -69,13 +69,13 @@ public interface UserRepository extends JpaRepository<User, Long> {
 //    @Query("select MAX (u.age) FROM User u")//valor mais auto
 //    @Query("select AVG (u.age) FROM User u")//valor medio
 //    @Query("select SUM (u.age) FROM User u")//soma de todos os valor
-    @Query("select COUNT (u.age) FROM User")
+//    @Query("select COUNT (u.age) FROM User")
 //conta numero de linhas da coluna idade
-    List<User> funcoesAgregadas();
+//    List<User> funcoesAgregadas();
 
     //BETWEEN - determinar intervalos, para filtragens
-    @Query("select u.age from User u where u.age BETWEEN 30 AND 40")
-    List<User> between();
+//    @Query("select u.age from User u where u.age BETWEEN 30 AND 40")
+//    List<User> between();
 
     //LIKE E NOT LIKE - determinar se uma cadeia de caracteres corresponde a um padão especifico.
     //('%') - QUALQUER CADEIA DE 0 OU MAIS CARACTERES
@@ -84,9 +84,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     //'[^]' - QUALQUER CARACTER UNICO que nao esteja NO INTERVALOR OU CONJUNTO ESPECIFICADO ([a-h]; [aeiou])
 //    @Query("select u.name from User u where u.name LIKE 'S%'")//comece com a letra s
 //    @Query("select u.name from User u where u.name LIKE '%S'")//termine com a letra s
-    @Query("select u.name from User u where u.name LIKE '%S'")
+//    @Query("select u.name from User u where u.name LIKE '%S'")
 //termine com a letra s
-    List<User> like();
+//    List<User> like();
 
     /**
      * JOIN
@@ -96,22 +96,22 @@ public interface UserRepository extends JpaRepository<User, Long> {
     //InnerJoin - Retorna linhas quando houver pelo menos uma correspondencia em ambas as tabelas
     //@Query("select * from tabela1 tb1 INNER JOIN tabela2 tb2 ON tb1.coluna = tb2.coluna")//colunas onde existe relacao
     //@Query("select tb1.campo1, tb1.campo2, ... from tabela1 tb1 INNER JOIN tabela2 tb2 ON tb1.coluna = tb2.coluna")
-    List<User> innerJoin();
+//    List<User> innerJoin();
 
     //OuterJoin - Retorna linhas das tabelas informada mesmo quando não houver pelo menos uma correspondencia nas tabelas
     //TIPOS:
     // LEFT JOIN - Retorna todas as linhas da tabela á esquerda. mesmo se não houver correpondencia na tabela da direita
     //@Query("select COLUNAS from TABELA_ESQ tb1 LEFT (OUTER) JOIN TABELA_DIR tb2 ON tb1.coluna = tb2.coluna")//SQL padrão usa-se LEFT OUTER JOIN
     //@Query("select COLUNAS from TABELA_ESQ tb1 LEFT (OUTER) JOIN TABELA_DIR tb2 ON tb1.coluna = tb2.coluna where tb2.coluna IS NULL")//exluindo correspondencias
-    List<User> LEFTJoin();
+//    List<User> LEFTJoin();
 
     // RIGHT JOIN - Retorna todas as linhas da tabela á direita. mesmo se não houver correpondencia na tabela da esquerda
     //@Query("select COLUNAS from TABELA_ESQ tb1 RIGHT (OUTER) JOIN TABELA_DIR tb2 ON tb1.coluna = tb2.coluna")
     //@Query("select COLUNAS from TABELA_ESQ tb1 RIGHT (OUTER) JOIN TABELA_DIR tb2 ON tb1.coluna = tb2.coluna where tb2.coluna IS NULL")//exluindo correspondencias
-    List<User> RIGHTJoin();
+//    List<User> RIGHTJoin();
 
     // FULL JOIN - Retorna linhas quando houver uma correspondencia e os que não houver correspondencia nas tabelas. É a combinação de LEFT e RIGHT.
     //@Query("select COLUNAS from TABELA1 tb1 FULL (OUTER) JOIN TABELA2 tb2 ON tb1.coluna = tb2.coluna")
     //@Query("select COLUNAS from TABELA1 tb1 FULL (OUTER) JOIN TABELA2 tb2 ON tb1.coluna = tb2.coluna where tb1.coluna IS NULL OR tb2.coluna IS NULL")
-    List<User> FULLJoin();
+//    List<User> FULLJoin();
 }
